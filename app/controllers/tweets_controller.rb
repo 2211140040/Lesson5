@@ -26,5 +26,4 @@ class TweetsController < ApplicationController
     Tweet.find(params[:id]).destroy
     redirect_to tweets_path
   end
-  
 end
