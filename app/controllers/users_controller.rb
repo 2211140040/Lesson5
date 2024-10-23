@@ -9,17 +9,14 @@ class UsersController < ApplicationController
 
   def create
     signup_password = BCrypt::Password.create(params[:user][:pass])
-    user = User.new(uid: params[:user][:uid], pass: signup_password)
-    if user.save
-      redirect_to users_path, notice: "ユーザーが作成されました。"
-    else
-      render :new
-    end
+    u = User.new(uid: params[:user][:uid], pass: signup_password)
+    u.save
+    redirect_to users_path
   end
 
   def destroy
-    user = User.find(params[:id])
-    user.destroy
-    redirect_to users_path, notice: "ユーザーが削除されました。"
+    User.find(params[:id]).destroy
+    redirect_to users_path
   end
+  
 end

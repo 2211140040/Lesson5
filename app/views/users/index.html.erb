@@ -1,12 +1,10 @@
 <h1>ユーザー一覧</h1>
-<ul>
-  <% @users.each do |u| %>
-    <li>
-      <%= u.uid %> 
-      <%= link_to '削除', user_path(u), method: :delete %>
-    </li>
-  <% end %>
-</ul>
 
+<% @users.each do |e| %>
+  ユーザーID: <%= e.uid %>, パスワード: <%= e.pass %> 
+  <%= link_to '削除', user_path(e), data: { turbo_method: :delete } %>
+  <br>
+<% end %>
 
 <%= link_to '新規登録', new_user_path %>
+<%= link_to 'ログイン', root_path %>

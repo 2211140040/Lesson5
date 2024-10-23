@@ -1,22 +1,15 @@
 <h1>ツイート一覧</h1>
 
-<% if session[:login_uid] %>
-  <%= form_with url: tweets_path, method: :post, local: true do |f| %>
-    <%= f.text_area :message, placeholder: "いまどうしてる？" %>
-    <%= f.submit "ツイートする" %>
+  <% @tweets.each do |e| %>
+    <%= e.message %>(<%= e.user_id %>)
+    <%= link_to '削除', tweet_path(e), data: { turbo_method: :delete }%>
+    <%= link_to 'いいね', likes_path(tweet_id: e.id), data: { turbo_method: :post } %>
+    <%= link_to 'いいね削除', like_path(e), data: { turbo_method: :delete } %>
+    <%= e.like_users.include?(User.find_by(uid: session[:login_uid])) %>
+    <br>
   <% end %>
-<% else %>
-  <p>ログインするとツイートができます。</p>
-<% end %>
+  
+<br>
 
-<ul>
-  <% @tweets.each do |t| %>
-    <li>
-      <%= t.message %> - 投稿者: <%= t.user.uid %>
-      <% if session[:login_uid] %>
-        <%= link_to '削除', tweet_path(t), method: :delete %>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
-
+<%= link_to '新規メッセージ', new_tweet_path %>
+<%= link_to 'ログアウト', top_logout_path %>
